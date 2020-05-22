@@ -17,8 +17,5 @@ public class IndexController {
     }
 
 
-    @GetMapping("/f2")
-    public String f2(Model model){
-        return "f2";
-    }
+
 }

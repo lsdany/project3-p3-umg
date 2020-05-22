@@ -16,6 +16,7 @@ public class Node<E> {
     private Node<E> left;
     private Node<E> father;
     private E data;
+    private int height;
 
     public Node(E data){
         this.data = data;
