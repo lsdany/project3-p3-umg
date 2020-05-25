@@ -5,7 +5,7 @@ package com.ld.project3p3umg.dataStructure;
  */
 public interface Tree<E> {
 
-    void addNode(E element);
+    void addNode(E element) throws Exception;
 
     void deleteNode(E element);
 

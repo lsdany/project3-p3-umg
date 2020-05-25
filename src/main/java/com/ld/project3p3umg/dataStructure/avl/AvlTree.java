@@ -1,31 +1,34 @@
 package com.ld.project3p3umg.dataStructure.avl;
 
 import com.ld.project3p3umg.dataStructure.Tree;
+import com.ld.project3p3umg.domain.Server;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author luisdany
- * @param <E>
+ * @param <T>
  */
-public class AvlTree<E> implements Tree<E> {
+@Slf4j
+public class AvlTree<T extends Comparable<T>> implements Tree<T> {
 
-    private Node<E> root;
+    private Node<T> root;
 
     @Override
-    public void addNode(E element) {
-        insert(root, element);
+    public void addNode(T element) throws Exception{
+        root = insert(root, element);
     }
 
     @Override
-    public void deleteNode(E element) {
+    public void deleteNode(T element) {
 
     }
 
     @Override
-    public void findNode(E element) {
+    public void findNode(T element) {
 
     }
 
-    private int getBalance(final Node<E> node){
+    private int getBalance(final Node<T> node){
         if(node != null){
             return height(node.getRight()) - height(node.getLeft());
         }else{
@@ -33,7 +36,7 @@ public class AvlTree<E> implements Tree<E> {
         }
     }
 
-    private int height(Node<E> node) {
+    private int height(Node<T> node) {
         if (node == null)
             return -1;
         else return node.getHeight();
@@ -51,9 +54,9 @@ public class AvlTree<E> implements Tree<E> {
      */
 
 
-    private Node<E> rRight(Node<E> y) {
-        Node<E> x = y.getLeft();
-        Node<E> z = x.getRight();
+    private Node<T> rRight(Node<T> y) {
+        Node<T> x = y.getLeft();
+        Node<T> z = x.getRight();
         x.setRight(y);
         y.setLeft(z);
         updateHeight(y);
@@ -73,9 +76,9 @@ public class AvlTree<E> implements Tree<E> {
 
      */
 
-    private Node<E> rLeft(Node<E> y) {
-        Node<E> x = y.getRight();
-        Node<E> z = x.getLeft();
+    private Node<T> rLeft(Node<T> y) {
+        Node<T> x = y.getRight();
+        Node<T> z = x.getLeft();
         x.setLeft(y);
         y.setRight(z);
         updateHeight(y);
@@ -83,9 +86,11 @@ public class AvlTree<E> implements Tree<E> {
         return x;
     }
 
-    private Node<E> balance(Node<E> z){
+    private Node<T> balance(Node<T> z){
+        log.info("Balance node");
         updateHeight(z);
         int balance = getBalance(z);
+        log.info("Balance: {}", balance);
         if (balance > 1) {
             if (height(z.getRight().getRight()) > height(z.getRight().getLeft())) {
                 z = rLeft(z);
@@ -105,20 +110,28 @@ public class AvlTree<E> implements Tree<E> {
     }
 
 
-    private void updateHeight(Node<E> node) {
+    private void updateHeight(Node<T> node) {
         node.setHeight(1 + Math.max(height(node.getLeft()), height(node.getRight()))) ;
     }
 
 
-    private Node<E> insert(Node<E> root, E value) {
+    private Node<T> insert(Node<T> root, T value) throws Exception{
         if (root == null) {
-            return new Node<E>(value);
-        } else if (node.key > key) {
-            root.getLeft() = insert(root.getLeft(), key);
-        } else if (node.key < key) {
-            root.setRight(insert(root.getRight(), key));
+            log.info("First node");
+            return new Node<T>(value);
+        } else if (root.getData().compareTo(value) < 0) {
+            log.info("Node to the left");
+            Node<T> left = insert(root.getLeft(), value);
+            left.setFather(root);
+            root.setLeft(left);
+        } else if (root.getData().compareTo(value) > 0) {
+            log.info("node to the right");
+            Node<T> right = insert(root.getRight(), value);
+            right.setFather(root);
+            root.setRight(right);
         } else {
-            throw new RuntimeException("duplicate Key!");
+            log.error("Duplicated value");
+            throw new Exception("duplicated value!");
         }
         return balance(root);
     }

@@ -8,12 +8,9 @@ import lombok.ToString;
  * @author luisdany
  */
 @Getter @Setter @ToString
-public class Server implements Comparable<Server>{
+public class Resource {
 
     private String name;
+    private String content;
 
-    @Override
-    public int compareTo(Server o) {
-        return o.getName().compareToIgnoreCase(this.name);
-    }
 }

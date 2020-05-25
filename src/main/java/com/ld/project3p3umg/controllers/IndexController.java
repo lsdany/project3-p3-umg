@@ -16,6 +16,12 @@ public class IndexController {
         return "index";
     }
 
+    @GetMapping("/server-view")
+    public String viewServerAdd(Model model){
+        return "server-add";
+    }
 
+    @GetMapping("/upload")
+    public String viewUpload(Model model){return "upload";}
 
 }
