@@ -1,13 +1,11 @@
 package com.ld.project3p3umg.domain;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 /**
  * @author luisdany
  */
-@Getter @Setter @ToString
+@Getter @Setter @ToString @AllArgsConstructor @NoArgsConstructor
 public class Server implements Comparable<Server>{
 
     private String name;

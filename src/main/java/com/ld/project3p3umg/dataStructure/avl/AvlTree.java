@@ -15,12 +15,12 @@ public class AvlTree<T extends Comparable<T>> implements Tree<T> {
 
     @Override
     public void addNode(T element) throws Exception{
-        root = insert(root, element);
+        this.root = insert(this.root, element);
     }
 
     @Override
     public void deleteNode(T element) {
-
+        this.root = delete(this.root, element);
     }
 
     @Override
@@ -57,7 +57,9 @@ public class AvlTree<T extends Comparable<T>> implements Tree<T> {
     private Node<T> rRight(Node<T> y) {
         Node<T> x = y.getLeft();
         Node<T> z = x.getRight();
+        if(x != null) x.setFather(y.getFather());
         x.setRight(y);
+        if(z != null) y.setFather(y);
         y.setLeft(z);
         updateHeight(y);
         updateHeight(x);
@@ -71,7 +73,7 @@ public class AvlTree<T extends Comparable<T>> implements Tree<T> {
              / \                   / \
             T1  x    Left --->    y  T2
                / \               / \
-              z   T2            T2  z
+              z   T2            T1  z
 
 
      */
@@ -79,7 +81,10 @@ public class AvlTree<T extends Comparable<T>> implements Tree<T> {
     private Node<T> rLeft(Node<T> y) {
         Node<T> x = y.getRight();
         Node<T> z = x.getLeft();
+        if(x != null) x.setFather(y.getFather());
         x.setLeft(y);
+        y.setFather(x);
+        if(z != null) z.setFather(y);
         y.setRight(z);
         updateHeight(y);
         updateHeight(x);
@@ -134,5 +139,40 @@ public class AvlTree<T extends Comparable<T>> implements Tree<T> {
             throw new Exception("duplicated value!");
         }
         return balance(root);
+    }
+
+    private Node<T> delete(Node<T> node, T element) {
+        if (node == null) {
+            return null;
+        } else if (node.getData().compareTo(element) < 0) {
+            node.setLeft(delete(node.getLeft(), element));
+        } else if (node.getData().compareTo(element) > 0) {
+            node.setRight(delete(node.getRight(), element));
+        } else {
+            if (node.getLeft() == null || node.getRight() == null) {
+                node = (node.getLeft() == null) ? node.getRight() : node.getLeft();
+            } else {
+                Node<T> leftChild = mostLeft(node.getRight());
+                node.setData(leftChild.getData());
+                node.setRight(delete(node.getRight(), node.getData()));
+            }
+        }
+        if (node != null) {
+            node = balance(node);
+        }
+        return node;
+    }
+
+
+    private Node<T> mostLeft(final Node<T> node) {
+        Node<T> temp = node;
+        while (temp.getLeft() != null) {
+            temp = temp.getLeft();
+        }
+        return temp;
+    }
+
+    public Node<T> getRoot() {
+        return root;
     }
 }

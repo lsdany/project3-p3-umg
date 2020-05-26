@@ -38,4 +38,14 @@ public class ServerController {
         return "redirect:/server-view";
     }
 
+    @PostMapping("/delete-server")
+    public String deleteServer(Model model, @ModelAttribute("server") Server server){
+        log.info("Removing server");
+        String error = serverService.deleteServer(server);
+        if(error.length() > 0){
+            model.addAttribute("error", error);
+        }
+        return "redirect:/server-delete";
+    }
+
 }

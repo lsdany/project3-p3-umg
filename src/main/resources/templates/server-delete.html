@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments :: header">
+    <meta charset="UTF-8">
+    <title>index</title>
+</head>
+<body>
+
+<nav th:insert="navbar-fragment:: navbar"></nav>
+
+<br>
+<br>
+<br>
+
+<div class="container">
+    <h4>Delete Server</h4>
+    <hr>
+    <form th:action="@{/delete-server}" method="post" th:object="${server}">
+
+        <div>
+
+            <div class="form-group row">
+                <label for="name" class="col-2 col-form-label">Server: </label>
+                <div class="col-8">
+
+                    <input class="form-control"
+                           type="text"
+                           name="name"
+                           id="name"
+                           placeholder="Delete Server">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-2 col-form-label">&nbsp;</label>
+            <div class="input-group col-md-8">
+                <button type="submit" class="btn btn-primary">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

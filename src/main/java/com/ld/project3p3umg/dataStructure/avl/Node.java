@@ -3,6 +3,7 @@ package com.ld.project3p3umg.dataStructure.avl;
 import com.ld.project3p3umg.domain.Server;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author luisdany
@@ -21,5 +22,10 @@ public class Node<T extends Comparable<T>> {
 
     public Node(T data){
         this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return data.toString();
     }
 }

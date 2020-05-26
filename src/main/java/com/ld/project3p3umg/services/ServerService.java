@@ -1,10 +1,14 @@
 package com.ld.project3p3umg.services;
 
+import com.ld.project3p3umg.bootstrap.TreeBootstrap;
 import com.ld.project3p3umg.dataStructure.Tree;
 import com.ld.project3p3umg.dataStructure.avl.AvlTree;
 import com.ld.project3p3umg.domain.Server;
+import com.ld.project3p3umg.draw.TreeDraw;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 
 /**
  * @author luisdany
@@ -13,7 +17,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class ServerService {
 
-    private AvlTree<Server> serverTree = new AvlTree<>();
+//    private AvlTree<Server> serverTree = new AvlTree<>();
+    private AvlTree<Server> serverTree = TreeBootstrap.getTree();
+
+    public AvlTree<Server> getTree(){
+        return serverTree;
+    }
 
     public String addServer(Server server){
 
@@ -30,5 +39,12 @@ public class ServerService {
         return "";
     }
 
+
+    public String deleteServer(Server server){
+        if(server != null){
+            serverTree.deleteNode(server);
+        }
+        return "";
+    }
 
 }
