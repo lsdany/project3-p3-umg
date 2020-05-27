@@ -49,7 +49,7 @@ public class TreeDraw {
             if (node.getFather() == null) {
                 if(node.getLeft() == null && node.getRight() == null){
                     sbTree.append("\"");
-                    sbTree.append(node.getData().getName());
+                    sbTree.append(node.getData().getWebsite());
                     sbTree.append("\"");
                     sbTree.append(";\n");
                 }
@@ -57,19 +57,19 @@ public class TreeDraw {
                 if (node.getLeft() != null) {
                     //isn't root node
                     sbTree.append("\"");
-                    sbTree.append(node.getData().getName());
+                    sbTree.append(node.getData().getWebsite());
                     sbTree.append("\"");
                     sbTree.append(" ").append("->").append(" ").append("\"");
-                    sbTree.append(node.getLeft().getData().getName()).append("\"");
+                    sbTree.append(node.getLeft().getData().getWebsite()).append("\"");
                     sbTree.append(";\n");
                     throughTree(node.getLeft());
                 }
                 if (node.getRight() != null) {
                     sbTree.append("\"");
-                    sbTree.append(node.getData().getName());
+                    sbTree.append(node.getData().getWebsite());
                     sbTree.append("\"");
                     sbTree.append(" ").append("->").append(" ").append("\"");
-                    sbTree.append(node.getRight().getData().getName()).append("\"");
+                    sbTree.append(node.getRight().getData().getWebsite()).append("\"");
                     sbTree.append(";\n");
                     throughTree(node.getRight());
                 }
@@ -77,19 +77,19 @@ public class TreeDraw {
                 if (node.getLeft() != null) {
                     //isn't root node
                     sbTree.append("\"");
-                    sbTree.append(node.getData().getName());
+                    sbTree.append(node.getData().getWebsite());
                     sbTree.append("\"");
                     sbTree.append(" ").append("->").append(" ").append("\"");
-                    sbTree.append(node.getLeft().getData().getName()).append("\"");
+                    sbTree.append(node.getLeft().getData().getWebsite()).append("\"");
                     sbTree.append(";\n");
                     throughTree(node.getLeft());
                 }
                 if (node.getRight() != null) {
                     sbTree.append("\"");
-                    sbTree.append(node.getData().getName());
+                    sbTree.append(node.getData().getWebsite());
                     sbTree.append("\"");
                     sbTree.append(" ").append("->").append(" ").append("\"");
-                    sbTree.append(node.getRight().getData().getName()).append("\"");
+                    sbTree.append(node.getRight().getData().getWebsite()).append("\"");
                     sbTree.append(";\n");
                     throughTree(node.getRight());
                 }

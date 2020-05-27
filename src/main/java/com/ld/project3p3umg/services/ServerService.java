@@ -17,11 +17,15 @@ import java.io.IOException;
 @Service
 public class ServerService {
 
-//    private AvlTree<Server> serverTree = new AvlTree<>();
-    private AvlTree<Server> serverTree = TreeBootstrap.getTree();
+    private AvlTree<Server> serverTree = new AvlTree<>();
+//    private AvlTree<Server> serverTree = TreeBootstrap.getTree();
 
     public AvlTree<Server> getTree(){
         return serverTree;
+    }
+
+    public void setServerTree(AvlTree<Server> serverTree) {
+        this.serverTree = serverTree;
     }
 
     public String addServer(Server server){

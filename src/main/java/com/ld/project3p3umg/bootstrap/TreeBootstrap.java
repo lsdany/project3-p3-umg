@@ -9,13 +9,13 @@ public class TreeBootstrap {
 
         try {
 
-            Server s1 = new Server("minfin.gob");
-            Server s2 = new Server("catastro.gob");
-            Server s3 = new Server("pollocampero.com");
-            Server s4 = new Server("amazon.com");
-            Server s5 = new Server("mcdonalds.com");
-            Server s6 = new Server("olx.com");
-            Server s7 = new Server("umg.edu");
+            Server s1 = new Server("minfin.gob","", null);
+            Server s2 = new Server("catastro.gob", "", null);
+            Server s3 = new Server("pollocampero.com", "", null);
+            Server s4 = new Server("amazon.com", "", null);
+            Server s5 = new Server("mcdonalds.com", "", null);
+            Server s6 = new Server("olx.com", "", null);
+            Server s7 = new Server("umg.edu", "", null);
 
             AvlTree<Server> tree = new AvlTree<>();
             tree.addNode(s1);
