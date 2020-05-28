@@ -3,6 +3,8 @@ package com.ld.project3p3umg.file;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ld.project3p3umg.dataStructure.avl.AvlTree;
+import com.ld.project3p3umg.dataStructure.hash.HashTable;
+import com.ld.project3p3umg.domain.Resource;
 import com.ld.project3p3umg.domain.ResourcesJson;
 import com.ld.project3p3umg.domain.Server;
 import com.ld.project3p3umg.domain.ServerJson;
@@ -52,15 +54,13 @@ public class JsonParse {
     private AvlTree<Server> getServers(ServerJson[] serverJsons){
         AvlTree<Server> tree = new AvlTree<>();
         for(ServerJson s : serverJsons){
-
             ResourcesJson[] resourcesJsons = s.getResources();
+            HashTable table = new HashTable(50);
             for(ResourcesJson r : resourcesJsons){
-
-//                Course course = Course.builder().id(idCounter++).name(c.getName()).students(studentList).build();
-//                courseList.add(course);
-
+                Resource resource = Resource.builder().name(r.getName()).content(r.getContent()).build();
+                table.add(resource);
             }
-            Server server = Server.builder().website(s.getWebsite()).company(s.getCompany()).resources(null).build();
+            Server server = Server.builder().website(s.getWebsite()).company(s.getCompany()).resources(table).build();
             try {
                 tree.addNode(server);
             } catch (Exception e) {

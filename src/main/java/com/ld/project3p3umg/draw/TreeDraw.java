@@ -143,7 +143,7 @@ public class TreeDraw {
 
         tree += "\n}\n";
 
-        log.info(tree);
+//        log.info(tree);
 
         Path path = Paths.get(fileName);
         byte[] strToBytes = tree.getBytes();

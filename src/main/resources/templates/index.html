@@ -19,15 +19,19 @@
     <br>
     <br>
     <br>
-    <div class="row-cols-1">
-        <input class="text-center form-control" type="text"/>
-    </div>
-    <br>
-    <br>
-    <div class="row">
-        <div class="col text-center"><button class="btn btn-success">Search Resource</button> </div>
-        <div class="col text-center"><button class="btn btn-success">Complete Search</button> </div>
-    </div>
+        <div class="row-cols-1">
+            <input class="text-center form-control" type="text" name="value" id="value"/>
+        </div>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col text-center">
+                <a class="btn btn-success"  th:href="@{'/search/' + ${value}}  ">Search Resource</a>
+            </div>
+            <div class="col text-center">
+                <button class="btn btn-success" type="submit">Complete Search</button>
+            </div>
+        </div>
 </div>
 
 

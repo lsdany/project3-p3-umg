@@ -12,7 +12,7 @@ public class Server implements Comparable<Server>{
 
     private String website;
     private String company;
-    private HashTable<Resource> resources;
+    private HashTable resources;
 
     @Override
     public int compareTo(Server o) {
