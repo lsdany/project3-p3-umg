@@ -9,6 +9,6 @@ public interface Tree<E> {
 
     void deleteNode(E element);
 
-    void findNode(E element);
+    E findNode(E element);
 
 }

@@ -1,35 +1,41 @@
 package com.ld.project3p3umg.controllers;
 
+import com.ld.project3p3umg.services.BrowserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * @author luisdany
  */
 @Controller
+@Slf4j
 public class BrowserController {
 
-    @PostMapping("/specific-search")
-    public String specificSearch(Model model, String value){
+    public final BrowserService browserService;
 
-        return null;
+    public BrowserController(BrowserService browserService) {
+        this.browserService = browserService;
     }
 
-    @PostMapping("/search")
-    public String search(Model model, String value){
-
-        return null;
+    @PostMapping("/search-resource")
+    public String searchResource(Model model, @ModelAttribute("value") String value) {
+        log.info("Searching {}", value);
+        Map<String, Object> mapResult = browserService.searchResource(value);
+        if(mapResult != null){
+            log.info("map result {}", mapResult.toString());
+        }
+        return "index";
     }
 
-
-    @RequestMapping("/search/{value}")
-    public String viewCoursesList(Model model, @PathVariable String value) {
-        System.out.println(value);
+    @PostMapping("/search-complete")
+    public String searchResourceComplete(Model model, @ModelAttribute("value") String value) {
+        log.info("Searching {}",value);
+        browserService.searchResources(value);
         return "index";
     }
 

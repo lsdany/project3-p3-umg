@@ -4,9 +4,12 @@ import com.ld.project3p3umg.dataStructure.Tree;
 import com.ld.project3p3umg.domain.Server;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * @author luisdany
  * @param <T>
+ * @author luisdany
  */
 @Slf4j
 public class AvlTree<T extends Comparable<T>> implements Tree<T> {
@@ -14,7 +17,7 @@ public class AvlTree<T extends Comparable<T>> implements Tree<T> {
     private Node<T> root;
 
     @Override
-    public void addNode(T element) throws Exception{
+    public void addNode(T element) throws Exception {
         this.root = insert(this.root, element);
     }
 
@@ -24,14 +27,27 @@ public class AvlTree<T extends Comparable<T>> implements Tree<T> {
     }
 
     @Override
-    public void findNode(T element) {
-
+    public T findNode(T element) {
+        return findByServer(root, element);
     }
 
-    private int getBalance(final Node<T> node){
-        if(node != null){
+    private T findByServer(Node<T> node, T element) {
+
+        if (node != null)
+            if (node.getData().compareTo(element) > 0) {
+                return findByServer(node.getRight(), element);
+            } else if (node.getData().compareTo(element) < 0) {
+                return findByServer(node.getLeft(), element);
+            } else
+                return node.getData();
+        else
+            return null;
+    }
+
+    private int getBalance(final Node<T> node) {
+        if (node != null) {
             return height(node.getRight()) - height(node.getLeft());
-        }else{
+        } else {
             return 0;
         }
     }
@@ -57,9 +73,9 @@ public class AvlTree<T extends Comparable<T>> implements Tree<T> {
     private Node<T> rRight(Node<T> y) {
         Node<T> x = y.getLeft();
         Node<T> z = x.getRight();
-        if(x != null) x.setFather(y.getFather());
+        if (x != null) x.setFather(y.getFather());
         x.setRight(y);
-        if(z != null) y.setFather(y);
+        if (z != null) y.setFather(y);
         y.setLeft(z);
         updateHeight(y);
         updateHeight(x);
@@ -81,17 +97,17 @@ public class AvlTree<T extends Comparable<T>> implements Tree<T> {
     private Node<T> rLeft(Node<T> y) {
         Node<T> x = y.getRight();
         Node<T> z = x.getLeft();
-        if(x != null) x.setFather(y.getFather());
+        if (x != null) x.setFather(y.getFather());
         x.setLeft(y);
         y.setFather(x);
-        if(z != null) z.setFather(y);
+        if (z != null) z.setFather(y);
         y.setRight(z);
         updateHeight(y);
         updateHeight(x);
         return x;
     }
 
-    private Node<T> balance(Node<T> z){
+    private Node<T> balance(Node<T> z) {
         log.info("Balance node");
         updateHeight(z);
         int balance = getBalance(z);
@@ -107,7 +123,7 @@ public class AvlTree<T extends Comparable<T>> implements Tree<T> {
             if (height(z.getLeft().getLeft()) > height(z.getLeft().getRight()))
                 z = rRight(z);
             else {
-                z.setLeft(rLeft(z.getLeft())) ;
+                z.setLeft(rLeft(z.getLeft()));
                 z = rRight(z);
             }
         }
@@ -116,11 +132,11 @@ public class AvlTree<T extends Comparable<T>> implements Tree<T> {
 
 
     private void updateHeight(Node<T> node) {
-        node.setHeight(1 + Math.max(height(node.getLeft()), height(node.getRight()))) ;
+        node.setHeight(1 + Math.max(height(node.getLeft()), height(node.getRight())));
     }
 
 
-    private Node<T> insert(Node<T> root, T value) throws Exception{
+    private Node<T> insert(Node<T> root, T value) throws Exception {
         if (root == null) {
             log.info("First node");
             return new Node<T>(value);
@@ -175,4 +191,26 @@ public class AvlTree<T extends Comparable<T>> implements Tree<T> {
     public Node<T> getRoot() {
         return root;
     }
+
+    public List<T> searchResources(T value){
+        inOrder(root, value);
+        return nodesList;
+    }
+
+    private List<T> nodesList = new ArrayList<>();
+
+    private void inOrder(Node<T> node, T value) {
+        if (node != null) {
+            if (node.getLeft() != null)
+                inOrder(node.getLeft(), value);
+            if (node.getData().compareTo(value) == 0) {
+                log.info("adding node {}", node.getData().toString());
+                nodesList.add(node.getData());
+            }
+            if (node.getRight() != null)
+                inOrder(node.getRight(), value);
+        }
+    }
+    //TODO change this to be usable at the time to search resources or content
+
 }

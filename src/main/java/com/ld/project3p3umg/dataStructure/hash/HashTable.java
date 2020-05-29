@@ -2,12 +2,10 @@ package com.ld.project3p3umg.dataStructure.hash;
 
 import com.ld.project3p3umg.domain.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 /**
  * @author luisdany
@@ -28,11 +26,11 @@ public class HashTable {
         this.value = value;
         int index = hashCode();
         log.info("index: {}", index);
-        if( index > size-1){
-            index = index - size;
-        }else if( index < 0) {
-
-        }
+//        if( index > size-1){
+//            index = index - size;
+//        }else if( index < 0) {
+//
+//        }
         List<Resource> list;
         if(table[index] == null){
             list = new ArrayList<>();
@@ -81,4 +79,12 @@ public class HashTable {
         return sum;
     }
 
+    @Override
+    public String toString() {
+        return "HashTable{" +
+                "size=" + size +
+                ", value=" + value +
+                ", table=" + Arrays.toString(table) +
+                '}';
+    }
 }

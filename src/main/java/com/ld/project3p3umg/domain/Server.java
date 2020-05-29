@@ -14,6 +14,24 @@ public class Server implements Comparable<Server>{
     private String company;
     private HashTable resources;
 
+//    @Override
+//    public int compareResourceName(String name) {
+//        Resource resource = resources.search(name);
+//        if(resource != null){
+//            return resource.getName().compareToIgnoreCase(name);
+//        }
+//        return -1;
+//    }
+//
+//    @Override
+//    public int compareResourceContent(String content) {
+//        Resource resource = resources.search(content);
+//        if(resource != null){
+//            return resource.getName().compareToIgnoreCase(content);
+//        }
+//        return -1;
+//    }
+
     @Override
     public int compareTo(Server o) {
         return o.getWebsite().compareToIgnoreCase(this.website);
