@@ -2,6 +2,7 @@ package com.ld.project3p3umg.dataStructure.avl;
 
 import com.ld.project3p3umg.dataStructure.Tree;
 import com.ld.project3p3umg.domain.Server;
+import com.ld.project3p3umg.file.FileWriter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class AvlTree<T extends Comparable<T>> implements Tree<T> {
     }
 
     private T findByServer(Node<T> node, T element) {
-
+        log.info("findByServer {} {}", node, element);
         if (node != null)
             if (node.getData().compareTo(element) > 0) {
                 return findByServer(node.getRight(), element);
@@ -95,6 +96,7 @@ public class AvlTree<T extends Comparable<T>> implements Tree<T> {
      */
 
     private Node<T> rLeft(Node<T> y) {
+
         Node<T> x = y.getRight();
         Node<T> z = x.getLeft();
         if (x != null) x.setFather(y.getFather());
@@ -113,18 +115,23 @@ public class AvlTree<T extends Comparable<T>> implements Tree<T> {
         int balance = getBalance(z);
         log.info("Balance: {}", balance);
         if (balance > 1) {
+            FileWriter.writeFile("Factor de Equilibrio = " + balance + " ");
             if (height(z.getRight().getRight()) > height(z.getRight().getLeft())) {
                 z = rLeft(z);
+                FileWriter.writeFile("; Nodos en rotacion = X, Y , Z; Rotacion I \n");
             } else {
                 z.setRight(rRight(z.getRight()));
                 z = rLeft(z);
+                FileWriter.writeFile("; Nodos en rotacion = X, Y , Z; Rotacion I \n");
             }
         } else if (balance < -1) {
-            if (height(z.getLeft().getLeft()) > height(z.getLeft().getRight()))
+            if (height(z.getLeft().getLeft()) > height(z.getLeft().getRight())) {
                 z = rRight(z);
-            else {
+                FileWriter.writeFile("; Nodos en rotacion = X, Y , Z; Rotacion D \n");
+            } else {
                 z.setLeft(rLeft(z.getLeft()));
                 z = rRight(z);
+                FileWriter.writeFile("; Nodos en rotacion = X, Y , Z; Rotacion D \n");
             }
         }
         return z;
@@ -158,7 +165,7 @@ public class AvlTree<T extends Comparable<T>> implements Tree<T> {
     }
 
     private Node<T> delete(Node<T> node, T element) {
-        if (node == null) {
+        if (node == null && element != null) {
             return null;
         } else if (node.getData().compareTo(element) < 0) {
             node.setLeft(delete(node.getLeft(), element));
@@ -192,25 +199,8 @@ public class AvlTree<T extends Comparable<T>> implements Tree<T> {
         return root;
     }
 
-    public List<T> searchResources(T value){
-        inOrder(root, value);
-        return nodesList;
-    }
 
-    private List<T> nodesList = new ArrayList<>();
-
-    private void inOrder(Node<T> node, T value) {
-        if (node != null) {
-            if (node.getLeft() != null)
-                inOrder(node.getLeft(), value);
-            if (node.getData().compareTo(value) == 0) {
-                log.info("adding node {}", node.getData().toString());
-                nodesList.add(node.getData());
-            }
-            if (node.getRight() != null)
-                inOrder(node.getRight(), value);
-        }
-    }
     //TODO change this to be usable at the time to search resources or content
+
 
 }

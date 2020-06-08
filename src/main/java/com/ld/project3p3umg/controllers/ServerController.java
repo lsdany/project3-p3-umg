@@ -40,7 +40,7 @@ public class ServerController {
 
     @PostMapping("/delete-server")
     public String deleteServer(Model model, @ModelAttribute("server") Server server){
-        log.info("Removing server");
+        log.info("Removing server {}",server.toString());
         String error = serverService.deleteServer(server);
         if(error.length() > 0){
             model.addAttribute("error", error);

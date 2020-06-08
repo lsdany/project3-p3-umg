@@ -26,11 +26,6 @@ public class HashTable {
         this.value = value;
         int index = hashCode();
         log.info("index: {}", index);
-//        if( index > size-1){
-//            index = index - size;
-//        }else if( index < 0) {
-//
-//        }
         List<Resource> list;
         if(table[index] == null){
             list = new ArrayList<>();
@@ -51,6 +46,20 @@ public class HashTable {
         return null;
     }
 
+    public List<Resource> searchContent(final String content){
+        List<Resource> resourceList = new ArrayList<>();
+        for(List<Resource> l : table){
+            if(l != null){
+                Resource r = l.stream().filter(s -> s.getContent().contains(content)).findFirst().orElse(null);
+                if(r!=null){
+                    resourceList.add(r);
+                }
+            }
+        }
+        return resourceList;
+    }
+
+
     public void delete(final String name){
         Resource resource = search(name);
         List<Resource> list = getListByIndex(name);
@@ -58,7 +67,7 @@ public class HashTable {
     }
 
     private List<Resource> getListByIndex(String name){
-        int index = convertToInt(value.getName()) % size;
+        int index = convertToInt(name) % size;
         log.info("index obtained: {}", index);
         return table[index];
     }

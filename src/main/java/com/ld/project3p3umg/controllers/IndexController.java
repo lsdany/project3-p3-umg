@@ -2,6 +2,8 @@ package com.ld.project3p3umg.controllers;
 
 import com.ld.project3p3umg.services.IndexService;
 import com.ld.project3p3umg.services.ServerService;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class IndexController {
 
     private final IndexService indexService;
+    @Getter @Setter
+    public String errorMessage;
+    public boolean error = false;
 
     public IndexController(IndexService indexService){
         this.indexService = indexService;
@@ -51,5 +56,15 @@ public class IndexController {
 
     @GetMapping("/upload")
     public String viewUpload(Model model){return "upload";}
+
+    @GetMapping("/resource-add-view")
+    public String viewResourceAdd(Model model){
+        return "/resource-add";
+    }
+
+    @GetMapping("/resource-delete-view")
+    public String viewResourceDelete(Model model){
+        return "/resource-delete";
+    }
 
 }

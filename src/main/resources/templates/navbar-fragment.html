@@ -46,8 +46,8 @@
                     Resources
                 </a>
                 <div class="dropdown-menu" aria-labelledby="resourceDropdown">
-                    <a class="dropdown-item" th:href="@{'/server-add'}">Add</a>
-                    <a class="dropdown-item" th:href="@{'/server-add'}">Delete</a>
+                    <a class="dropdown-item" th:href="@{'/resource-add-view'}">Add</a>
+                    <a class="dropdown-item" th:href="@{'/resource-delete-view'}">Delete</a>
                 </div>
             </li>
             <li class="nav-item">
@@ -57,7 +57,7 @@
                 <a class="nav-link" th:href="@{'/view-tree'}">Tree</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Report</a>
+                <a class="nav-link" th:href="@{'/report'}" th:target="_blank">Report</a>
             </li>
         </ul>
         <img src="images/umg.png" class="img-fluid" alt="Responsive image" width="50" height="50"/>

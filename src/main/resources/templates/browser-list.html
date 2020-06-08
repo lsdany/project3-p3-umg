@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments :: header">
+    <meta charset="UTF-8">
+    <title>index</title>
+</head>
+<body>
+
+<nav th:insert="navbar-fragment:: navbar"></nav>
+<br/><br/><br/><br/>
+<div class="table row d-flex justify-content-center" >
+
+    <table border="1" cellpadding="10">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">Server</th>
+            <th scope="col">Resource</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="search : ${resultList}">
+            <td th:text="${search.getServer().getWebsite()}">Server</td>
+            <td th:text="${search.getResource().getName()}">Resource</td>
+<!--            <form th:action="@{/add-resource}" method="post" th:object="${resource}">-->
+                <td> <a class="btn btn-success" th:href="@{'/search/' + ${search.getValues()}}">Show</a></td>
+<!--            </form>-->
+<!--            search.getServer().getWebsite()} + ${search.getResource().getName()-->
+        </tr>
+        </tbody>
+    </table>
+
+
+
+</div>
+
+
+</body>
+</html>

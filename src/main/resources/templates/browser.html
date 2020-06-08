@@ -8,6 +8,21 @@
 
 <nav th:insert="navbar-fragment:: navbar"></nav>
 
+<br><br><br><br>
+<div class="container">
+
+    <div class="form-group row">
+        <label lass="col-2 col-form-label"></label>
+        <div class="col-8 text-center">
+            <label class="col-form-label text-black-50" th:text="${server.getWebsite() + resource.getName()}"></label>
+        </div>
+    </div>
+
+    <textarea class="form-control rounded-0" id="exampleFormControlTextarea2" rows="10" th:text="${resource.getContent()}"></textarea>
+
+
+</div>
+
 
 
 </body>

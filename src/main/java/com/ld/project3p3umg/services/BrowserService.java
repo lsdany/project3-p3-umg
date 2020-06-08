@@ -1,15 +1,15 @@
 package com.ld.project3p3umg.services;
 
 import com.ld.project3p3umg.dataStructure.avl.AvlTree;
+import com.ld.project3p3umg.dataStructure.avl.Node;
 import com.ld.project3p3umg.dataStructure.hash.HashTable;
 import com.ld.project3p3umg.domain.Resource;
+import com.ld.project3p3umg.domain.SearchResult;
 import com.ld.project3p3umg.domain.Server;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author luisdany
@@ -33,7 +33,8 @@ public class BrowserService {
 
             if (server == null) {
                 log.error("Server does not exist into the tree");
-                return null;
+                map.put("error", "Server does not exist into the tree");
+                return map;
             }
 
             HashTable table = server.getResources();
@@ -48,27 +49,39 @@ public class BrowserService {
             map.put("server", server);
             return map;
         }
-        return null;
+        map.put("error", "Search value is null");
+        return map;
     }
 
     public Map<String, Object> searchResources(String searchString) {
 
+        Map<String, Object> resultMap = new HashMap<>();
         if (searchString != null && searchString.length() > 0) {
-
             if (searchString.startsWith("http") || searchString.startsWith("www")) {
                 log.info("Looking for a server");
-                return searchResource(searchString);
+                var result = searchResource(searchString);
+                if(result != null && !result.containsKey("error")){
+                    Server server = (Server) result.get("server");
+                    Resource resource = (Resource) result.get("resource");
+                    SearchResult searchResult = new SearchResult();
+                    searchResult.setResource(resource);
+                    searchResult.setServer(server);
+                    resultMap.put("resource", Arrays.asList(searchResult));
+                }
 
             } else if (searchString.startsWith("/")) {
                 log.info("Looking for a resource");
-
+                List<SearchResult> serverList = searchResourcesByNameInTree(searchString);
+                resultMap.put("resource", serverList);
             } else {
                 log.info("Looking for content");
+                List<SearchResult> resultList = searchResourcesByContentInTree(searchString);
+                resultMap.put("resource", resultList);
             }
 
         }
 
-        return null;
+        return resultMap;
     }
 
 
@@ -109,6 +122,61 @@ public class BrowserService {
                     .findFirst().orElse(null);
         }
         return null;
+    }
+
+
+    private List<SearchResult> searchResourcesByNameInTree(String value){
+        searchResults = new ArrayList<>();
+        AvlTree<Server> tree = serverService.getTree();
+        if(tree != null && tree.getRoot() != null){
+            inOrder(tree.getRoot(), value);
+        }
+        return searchResults;
+    }
+
+    private List<SearchResult> searchResourcesByContentInTree(String value){
+        searchResults = new ArrayList<>();
+        AvlTree<Server> tree = serverService.getTree();
+        if(tree != null && tree.getRoot() != null){
+            inOrderContent(tree.getRoot(), value);
+        }
+        return searchResults;
+    }
+
+    private List<SearchResult> searchResults = new ArrayList<>();
+
+    private void inOrder(Node<Server> node, String value) {
+        if (node != null) {
+            if (node.getLeft() != null)
+                inOrder(node.getLeft(), value);
+            Resource resource = node.getData().getResources().search(value);
+            if(resource != null){
+                SearchResult result = new SearchResult();
+                result.setServer(node.getData());
+                result.setResource(resource);
+                searchResults.add(result);
+            }
+            if (node.getRight() != null)
+                inOrder(node.getRight(), value);
+        }
+    }
+
+    private void inOrderContent(Node<Server> node, String value) {
+        if (node != null) {
+            if (node.getLeft() != null)
+                inOrderContent(node.getLeft(), value);
+            List<Resource> resources = node.getData().getResources().searchContent(value);
+            if(resources != null){
+                for(Resource r : resources){
+                    SearchResult result = new SearchResult();
+                    result.setServer(node.getData());
+                    result.setResource(r);
+                    searchResults.add(result);
+                }
+            }
+            if (node.getRight() != null)
+                inOrderContent(node.getRight(), value);
+        }
     }
 
 }

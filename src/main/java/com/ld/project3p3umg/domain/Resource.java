@@ -2,8 +2,6 @@ package com.ld.project3p3umg.domain;
 
 import lombok.*;
 
-import java.util.Objects;
-
 /**
  * @author luisdany
  */
@@ -25,6 +23,9 @@ public class Resource {
 
     @Override
     public String toString() {
-        return this.getName();
+        return "Resource{" +
+                "name='" + name + '\'' +
+                ", content='" + content + '\'' +
+                '}';
     }
 }

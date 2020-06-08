@@ -30,10 +30,15 @@
                 <button class="btn btn-success" type="submit" id="submit" name="submit" th:formaction="@{/search-resource}">Search Resource</button>
             </div>
             <div class="col text-center">
-                <button class="btn btn-success" type="submit"  th:formaction="@{/search-complete}" /search-complete>Complete Search</button>
+                <button class="btn btn-success" type="submit"  th:formaction="@{/search-complete}" >Complete Search</button>
             </div>
         </div>
     </form>
+
+    <br><br><br>
+    <div class="alert alert-danger" th:if="${error}">
+        <h1 th:text="${errorMessage}">Error cargando tarea</h1>
+    </div>
 </div>
 
 

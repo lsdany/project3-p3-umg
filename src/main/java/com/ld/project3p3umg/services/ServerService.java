@@ -31,6 +31,8 @@ public class ServerService {
     public String addServer(Server server){
 
         if(server != null){
+            String company = getCompany(server.getWebsite());
+            server.setCompany(company);
             log.info("Server to add: {}", server.toString());
             try{
                 serverTree.addNode(server);
@@ -43,9 +45,17 @@ public class ServerService {
         return "";
     }
 
+    private String getCompany(String website) {
+        if(website.startsWith("www") || website.startsWith("http") ){
+            String[] company = website.split(".");
+            return company.length > 1 ? company[1] : null;
+        }
+        return null;
+    }
+
 
     public String deleteServer(Server server){
-        if(server != null){
+        if(server != null && server.getWebsite() != null){
             serverTree.deleteNode(server);
         }
         return "";
